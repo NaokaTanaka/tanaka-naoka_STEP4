@@ -19,24 +19,31 @@
         "male" => "男性",
         "female" => "女性"
       ];
+      $errors = [];
 
         if(!preg_match('/^[ぁ-んァ-ヶーー-龠a-zA-Z\s]+$/u', $name)) {
-        echo "<p>ひらがな、カタカナ、漢字、英字のみで入力してください。</p>";
+        $errors[] = "ひらがな、カタカナ、漢字、英字のみで入力してください。";
         }
         if (!is_numeric($age) || $age < 0 || $age > 150) {
-        echo "<p>0から150の半角数字で入力してください。</p>";
+        $errors[] = "0から150の半角数字で入力してください。";
         }
         if (!preg_match('/^[0-9-]+$/', $tel)) {
-        echo "<p>半角数字とハイフンのみで入力してください。</p>";
+        $errors[] = "半角数字とハイフンのみで入力してください。";
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        echo "<p>メールアドレスの形式で入力してください。</p>";
+        $errors[] = "メールアドレスの形式で入力してください。";
         }
         if (!preg_match('/^[ぁ-んァ-ヶーー-龠a-zA-Z\s]+$/u', $address)) {
-          echo "<p>質問を入力してください</p>";
+        $errors[] = "ひらがな、カタカナ、漢字、英字のみで入力してください。";
         }
         if (!preg_match('/\S/', $question)) {
-        echo "<p>ひらがな、カタカナ、漢字、英字のみで入力してください。</p>";
+        $errors[] = "質問を入力してください。";
+        }
+
+        if (count($errors) > 0) {
+          foreach ($errors as $error) {
+            echo "<p>{$error}</p>";
+          }
         } else {
           // 入力内容表示
           echo "<p>名前:".htmlspecialchars($name,ENT_QUOTES,'UTF-8')."</p>";
@@ -48,8 +55,6 @@
           $selectedLabel = $gender[$selectedValue];
           echo "<p>性別:".htmlspecialchars($selectedLabel,ENT_QUOTES,'UTF-8')."</p>";
         }
-      } else {
-      echo "<p>データが送信されていません。</p>";
     }
     ?>
 </body>
